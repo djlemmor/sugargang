@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { getProductsService } from '@/services/product-service.js'
+import { getAllProducts } from '@/services/product-service.js'
 import DataView from 'primevue/dataview'
 import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions'
 import Button from 'primevue/button'
@@ -16,7 +16,7 @@ const filters = ref('')
 
 onMounted(() => {
   loadedAPI.value = false
-  getProductsService()
+  getAllProducts()
     .then((data) => {
       products.value = data
       originalProducts.value = [...products.value]
@@ -79,16 +79,20 @@ const applyFilters = () => {
       <template #list="slotProps">
         <div class="col-12">
           <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-            <img
-              class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
-              :src="slotProps.data.product.image.src"
-              :alt="slotProps.data.product.title"
-            />
+            <RouterLink :to="`/product/${slotProps.data._id}`">
+              <img
+                class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
+                :src="slotProps.data.product.image.src"
+                :alt="slotProps.data.product.title"
+              />
+            </RouterLink>
             <div
               class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4"
             >
               <div class="flex flex-column align-items-center sm:align-items-start gap-3">
-                <div class="text-2xl font-bold text-900">{{ slotProps.data.product.title }}</div>
+                <RouterLink :to="`/product/${slotProps.data._id}`" class="no-underline">
+                  <div class="text-2xl font-bold text-900">{{ slotProps.data.product.title }}</div>
+                </RouterLink>
                 <div class="flex align-items-center gap-3">
                   <Tag value="INSTOCK" :severity="getSeverity('INSTOCK')"></Tag>
                 </div>
@@ -115,12 +119,14 @@ const applyFilters = () => {
               <Tag value="INSTOCK" :severity="getSeverity('INSTOCK')"></Tag>
             </div>
             <div class="flex flex-column align-items-center gap-3 py-5">
-              <img
-                class="w-9 shadow-2 border-round"
-                :src="slotProps.data.product.image.src"
-                :alt="slotProps.data.product.title"
-              />
-              <div class="text-2xl font-bold text-900">{{ slotProps.data.product.title }}</div>
+              <RouterLink :to="`/product/${slotProps.data._id}`" class="no-underline text-center">
+                <img
+                  class="w-9 shadow-2 border-round"
+                  :src="slotProps.data.product.image.src"
+                  :alt="slotProps.data.product.title"
+                />
+                <div class="text-2xl font-bold text-900">{{ slotProps.data.product.title }}</div>
+              </RouterLink>
             </div>
             <div class="flex align-items-center justify-content-between">
               <span class="text-2xl font-semibold"

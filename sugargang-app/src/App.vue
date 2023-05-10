@@ -1,5 +1,4 @@
 <script setup>
-import { RouterView } from 'vue-router'
 import HeaderComponent from '@/components/HeaderComponent.vue'
 </script>
 
@@ -11,5 +10,6 @@ import HeaderComponent from '@/components/HeaderComponent.vue'
 <style>
 body {
   font-family: var(--font-family);
+  background-color: #f3f5f6;
 }
 </style>

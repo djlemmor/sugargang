@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
@@ -36,7 +37,13 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response(['error' => 'Product not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        return $product;
     }
 
     /**
@@ -48,7 +55,15 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response(['error' => 'Product not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $product->update($request->all());
+
+        return response($product, Response::HTTP_ACCEPTED);
     }
 
     /**
